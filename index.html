@@ -1,0 +1,17 @@
+﻿<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io.connect('http://localhost:3002/python');
+  socket.on('stdout', function (data) {
+    console.log(data);
+  });
+  socket.on('stderr', function (data) {
+    console.log(data);
+  });
+  socket.on('stdin', function (data) {
+    console.log(data);
+  });
+  function sendPython() {
+    socket.emit('cmd', {cmd:'print(45)\r\n'});
+  }
+</script>
+<button name="XYZ" onclick="sendPython();">aaa</button>
