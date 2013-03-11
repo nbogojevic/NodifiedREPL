@@ -5,9 +5,10 @@ var config = {
     args: ['-u', '-i']
     },
   groovy: {
-    cmd: 'D:\\windows\system32\cmd.exe /c D:\\java\\groovy-1.7.5\bin\groovysh.cmd',
-    args: []
-  }
+    cmd: 'C:\\windows\\system32\\cmd.exe',
+    args: ['/c', 'D:\\java\\groovy-1.7.5\\bin\\groovysh.bat']
+  },
+  debug: false
 };
 
 var replList = {
@@ -21,7 +22,7 @@ var replList = {
       console.log('Connection to ' + repl + ' REPL.');
       replList.init(repl, socket);
       socket.on('cmd', function (data) {
-        console.log(data);
+        // console.log("Received: " + data);
         var cmd = data.cmd;
         replList.list[repl].app.stdin.write(cmd);
       });
@@ -46,13 +47,15 @@ var replList = {
   init: function (repl, socket) {
     if (replList.list[repl] == null) {
       replList.list[repl] = {app: spawn(config[repl].cmd, config[repl].args) };
-      replList.list[repl].app.stdout.on('data', function (data) {
-        console.log('Stdout: ' + data);
-      });
+      if (config.debug) {
+        replList.list[repl].app.stdout.on('data', function (data) {
+          console.log('Stdout: ' + data);
+        });
 
-      replList.list[repl].app.stderr.on('data', function (data) {
-        console.log('Stderr: ' + data);
-      });
+        replList.list[repl].app.stderr.on('data', function (data) {
+          console.log('Stderr: ' + data);
+        });
+      }
       replList.list[repl].app.on('exit', function (code) {
         console.log('child process ' + repl + 'exited with code ' + code);
         replList.list[repl] = null;
@@ -107,6 +110,9 @@ app.get('/shutdown', function(req, res) {
 
 replList.configure('python');
 replList.configure('groovy');
+
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
 
 server.listen(3002, function() {
   console.log('listening on port 3002');
