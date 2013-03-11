@@ -8,9 +8,11 @@ First implementation supports Python and groovy.
 Usage
 -----
 
-Currently server only listens on port 3002.
+Currently server only listens on port 3002 and paths to scripts are hard-coded.
 
-    node index.js
+Installation: get source code and perofrm `npm install`.
+
+Running server: `node index.js`.
 
 API
 ---
@@ -32,3 +34,4 @@ Eval part is, of course, done sever side.
 
 Print part is available via socket.io events. Two events are available: `stdout` and `stderr`. They correspond to stdout and stderr stream of server side REPL implementation. Data content is content of stream.
     
+To stop server, issue `http://<your-server>:3002/shutdown` command.
