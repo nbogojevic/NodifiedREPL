@@ -1,11 +1,8 @@
 {
-  "name": "python-runner",
+  "name": "NodifiedREPL",
   "version": "0.0.1",
-  "description": "Runs python command line.",
+  "description": "Runs python and groovy REPL.",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": "",
   "author": "Nenad Bogojevic",
   "license": "MIT",
